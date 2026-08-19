@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CandidateForm
 from .utils import extract_text_from_resume
 from .ai_scorer import score_resume
@@ -19,15 +19,16 @@ def upload_resume(request):
             candidate.status = 'scored'
 
             candidate.save()
-            return redirect('upload_success')
+            return redirect('upload_success', candidate_id=candidate.id)
     else:
         form = CandidateForm()
 
     return render(request, 'screener/upload.html', {'form': form})
 
 
-def upload_success(request):
-    return render(request, 'screener/success.html')
+def upload_success(request, candidate_id):
+    candidate = get_object_or_404(Candidate, id=candidate_id)
+    return render(request, 'screener/success.html', {'candidate': candidate})
 
 
 def candidate_list(request):

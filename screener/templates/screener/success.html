@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Success</title>
+    <title>Application Results</title>
 </head>
 <body>
-    <h1>Resume submitted successfully!</h1>
-    <p>Thank you for applying. We'll review your resume shortly.</p>
+    <h1>Thank you, {{ candidate.name }}!</h1>
+    <p>Your resume has been analyzed. Here's how you matched against the job description:</p>
+
+    <h2>Match Score: {{ candidate.ai_score }} / 100</h2>
+
+    <h3>Feedback:</h3>
+    <p>{{ candidate.ai_feedback }}</p>
+
+    <a href="{% url 'upload_resume' %}">Submit another resume</a>
 </body>
 </html>
