@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import CandidateForm
 from .utils import extract_text_from_resume
 from .ai_scorer import score_resume
+from .models import Candidate
 
 def upload_resume(request):
     if request.method == 'POST':
@@ -27,3 +28,8 @@ def upload_resume(request):
 
 def upload_success(request):
     return render(request, 'screener/success.html')
+
+
+def candidate_list(request):
+    candidates = Candidate.objects.filter(status='scored').order_by('-ai_score')
+    return render(request, 'screener/candidate_list.html', {'candidates': candidates})
